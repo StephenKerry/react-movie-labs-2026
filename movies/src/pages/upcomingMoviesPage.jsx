@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PageTemplate from "../components/templateMovieListPage";
+import AddToPlaylistIcon from "../components/cardIcons/addToPlaylist"; 
 
 const UpcomingMoviesPage = () => {
   const [movies, setMovies] = useState([]);
-
-  // Mirror HomePage favorites logic
-  const addToFavorites = (movieId) => {
-    const updatedMovies = movies.map((m) =>
-      m.id === movieId ? { ...m, favorite: true } : m
-    );
-    setMovies(updatedMovies);
-
-    const favorites = updatedMovies.filter(m => m.favorite);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  };
 
   useEffect(() => {
     fetch(
@@ -27,7 +17,9 @@ const UpcomingMoviesPage = () => {
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
-      selectFavorite={addToFavorites}
+      action={(movie) => {
+        return <AddToPlaylistIcon movie={movie} />;
+      }}
     />
   );
 };
